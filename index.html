@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>貴婦人の再生と復讐</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      background: #f7f7f7;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: #f7f7f7;
+      padding: 1rem;
+      text-align: center;
+    }
+    #book-title{
+      line-height: 1;
+      margin-top: 0px;
+    }
+    .chapter-select {
+      margin: 0.5rem 0;
+    }
+    main {
+      flex: 1;
+      padding: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      font-size: 1.1rem;
+      line-height: 2;
+      word-break: break-all;
+      min-height: 60vh;
+      padding-bottom: 140px;
+    }
+    footer {
+      background: #fff;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.03);
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    button {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      background: #007aff;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 0.7rem;
+        font-size: 1rem;
+        padding-bottom: 130px;
+      }
+      footer {
+        padding: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- <h1 id="book-title">My Boss's Brother is My Ex-Boyfriend</h1> -->
+    <h2 id="book-title">続きを読むには[227465]をダウンロードして検索してください</h2>
+    <div id="carousel-container">
+      <div id="carousel">
+        <div class="carousel-slide">
+          <img src="o3w1j.webp">
+        </div>
+        <!-- <div class="carousel-slide">
+          <img src="image2.jpg" alt="图片2">
+        </div>
+        <div class="carousel-slide">
+          <img src="image3.jpg" alt="图片3">
+        </div> -->
+      </div>
+      <button id="prev-btn" class="carousel-btn">‹</button>
+      <button id="next-btn" class="carousel-btn">›</button>
+      <div id="carousel-dots"></div>
+    </div>
+  </header>
+  <!-- <div id="audio-bar-container">
+    <audio id="audio-bar" controls src="audio.mp3" preload="none" style="width:100%"></audio>
+  </div> -->
+  <main id="content"></main>
+  <button id="read-more-btn">続きを読むには[227465]をダウンロードして検索してください</button>
+  <footer style="display:none"></footer>
+  <script>
+    
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+    
+    function showSlide(index) {
+      const carousel = document.getElementById('carousel');
+      carousel.style.transform = `translateX(-${index * 100}%)`;
+      currentSlide = index;
+      updateDots();
+    }
+    
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+    
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+    
+    function updateDots() {
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+    
+    function createDots() {
+      const dotsContainer = document.getElementById('carousel-dots');
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.onclick = () => showSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+      updateDots();
+    }
+    
+   
+    document.getElementById('next-btn').onclick = nextSlide;
+    document.getElementById('prev-btn').onclick = prevSlide;
+    createDots();
+    
+    
+    setInterval(nextSlide, 5000);
+    
+    
+    async function loadTxt() {
+      try {
+        const res = await fetch('chap1.txt?v=1.0.0');
+        if (!res.ok) throw new Error('読み込みに失敗しました');
+        const text = await res.text();
+        document.getElementById('content').innerText = text;
+      } catch (e) {
+        document.getElementById('content').innerText = '章のコンテンツを読み込めませんでした';
+      }
+    }
+    window.onload = loadTxt;
+
+    document.getElementById('read-more-btn').onclick = function() {
+      var ua = window.navigator.userAgent;
+      var isIOS = /iPhone|iPad|iPod/i.test(ua);
+      if (isIOS) {
+        window.location.href = 'https://apps.apple.com/jp/app/snackshort/id6450035850'; // ios
+      } else {
+        window.location.href = 'https://play.google.com/store/apps/details?id=com.plotshow.snackshow'; // other
+      }
+    };
+  </script>
+  <style>
+    #read-more-btn {
+      position: fixed;
+      width: 100%;
+      max-width: 500px;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%);
+      z-index: 1000;
+      padding: 1rem 2.2rem;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #ff3e64 0, #ff7e42 100%);;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      cursor: pointer;
+      outline: none;
+      animation: bounce 1.2s infinite;
+      transition: background 0.2s;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-16px); }
+    }
+    @media (max-width: 600px) {
+      #read-more-btn {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+        bottom: 16px;
+      }
+    }
+    #audio-bar-container {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 0.5rem 0 0.3rem 0;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 600px) {
+      #audio-bar-container {
+        padding: 0.2rem 0 0.1rem 0;
+      }
+    }
+    #carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    #carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      height: auto;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      color: #000;
+      border: none;
+      padding: 1rem 0.8rem;
+      cursor: pointer;
+      font-size: 1.5rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .carousel-btn:hover {
+      background: rgba(0,0,0,0.7);
+    }
+    #prev-btn {
+      left: 10px;
+    }
+    #next-btn {
+      right: 10px;
+    }
+    #carousel-dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .dot.active {
+      background: white;
+    }
+    @media (max-width: 600px) {
+      .carousel-slide {
+        height: auto;
+      }
+      .carousel-btn {
+        padding: 0.7rem 0.5rem;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</body>
+</html>
